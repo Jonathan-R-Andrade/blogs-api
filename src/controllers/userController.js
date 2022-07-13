@@ -1,6 +1,6 @@
 const userService = require('../services/userService');
 const jwtService = require('../services/jwtService');
-const { validateLoginData } = require('../services/validations');
+const { validateLoginData, validateUserData } = require('../services/validations');
 
 module.exports = {
 
@@ -13,6 +13,7 @@ module.exports = {
   },
 
   create: async (req, res) => {
+    validateUserData(req.body);
     const { email } = await userService.create(req.body);
     const token = jwtService.createToken({ email });
     res.status(201).json({ token });

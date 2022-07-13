@@ -10,4 +10,16 @@ module.exports = {
 
     joi.assert(loginData, schema, badRequest('Some required fields are missing'));
   },
+
+  validateUserData: (userData) => {
+    const schema = joi.object({
+      displayName: joi.string().required().min(8),
+      email: joi.string().required().email(),
+      password: joi.string().required().min(6),
+      image: joi.string(),
+    }).required().label('user');
+
+    const { error } = schema.validate(userData);
+    if (error) throw (badRequest(error.message));
+  },
 };
