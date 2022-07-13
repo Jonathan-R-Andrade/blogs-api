@@ -7,6 +7,9 @@ const errors = {
   conflict: (message) => (
     new CustomError(409, message || 'Conflict')
   ),
+  notFound: (message) => (
+    new CustomError(404, message || 'Not Found')
+  ),
 };
 
 module.exports = errors;

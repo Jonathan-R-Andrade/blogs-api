@@ -1,5 +1,5 @@
 const { User } = require('../database/models');
-const { badRequest, conflict } = require('../errors');
+const { badRequest, conflict, notFound } = require('../errors');
 
 module.exports = {
 
@@ -16,6 +16,12 @@ module.exports = {
       defaults: userData,
     });
     if (!created) throw conflict('User already registered');
+    return user.toJSON();
+  },
+
+  getById: async (id) => {
+    const user = await User.findByPk(id, { attributes: { exclude: ['password'] } });
+    if (!user) throw notFound('User does not exist');
     return user.toJSON();
   },
 
