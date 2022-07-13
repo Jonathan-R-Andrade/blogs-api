@@ -19,6 +19,11 @@ module.exports = {
     return user.toJSON();
   },
 
+  list: async () => {
+    const users = await User.findAll({ attributes: { exclude: ['password'] } });
+    return users;
+  },
+
   getById: async (id) => {
     const user = await User.findByPk(id, { attributes: { exclude: ['password'] } });
     if (!user) throw notFound('User does not exist');
