@@ -1,5 +1,5 @@
 const { User } = require('../database/models');
-const { badRequest } = require('../errors');
+const { badRequest, conflict } = require('../errors');
 
 module.exports = {
 
@@ -8,6 +8,15 @@ module.exports = {
     if (!user || user.password !== password) {
       throw badRequest('Invalid fields');
     }
+  },
+
+  create: async (userData) => {
+    const [user, created] = await User.findOrCreate({
+      where: { email: userData.email },
+      defaults: userData,
+    });
+    if (!created) throw conflict('User already registered');
+    return user.toJSON();
   },
 
 };
