@@ -12,4 +12,10 @@ module.exports = {
     res.status(200).json({ token });
   },
 
+  create: async (req, res) => {
+    const { email } = await userService.create(req.body);
+    const token = jwtService.createToken({ email });
+    res.status(201).json({ token });
+  },
+
 };
