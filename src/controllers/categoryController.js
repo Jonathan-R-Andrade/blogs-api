@@ -9,4 +9,9 @@ module.exports = {
     res.status(201).json(category);
   },
 
+  list: async (_req, res) => {
+    const categories = await categoryService.list();
+    res.status(200).json(categories);
+  },
+
 };

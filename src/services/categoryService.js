@@ -7,4 +7,9 @@ module.exports = {
     return category.toJSON();
   },
 
+  list: async () => {
+    const categories = await Category.findAll();
+    return categories;
+  },
+
 };
