@@ -20,7 +20,7 @@ module.exports = {
     }).required().label('user');
 
     const { error } = schema.validate(userData);
-    if (error) throw (badRequest(error.message));
+    if (error) throw badRequest(error.message);
   },
 
   validateCategoryData: (categoryData) => {
