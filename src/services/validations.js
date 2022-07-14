@@ -22,4 +22,13 @@ module.exports = {
     const { error } = schema.validate(userData);
     if (error) throw (badRequest(error.message));
   },
+
+  validateCategoryData: (categoryData) => {
+    const schema = joi.object({
+      name: joi.string().required().not().empty(),
+    }).required().label('category');
+
+    const { error } = schema.validate(categoryData);
+    if (error) throw badRequest(error.message);
+  },
 };
