@@ -8,6 +8,7 @@ module.exports = {
     if (!user || user.password !== password) {
       throw badRequest('Invalid fields');
     }
+    return user.toJSON();
   },
 
   create: async (userData) => {
