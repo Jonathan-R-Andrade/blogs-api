@@ -58,4 +58,13 @@ module.exports = {
     return post.toJSON();
   },
 
+  delete: async (id, userId) => {
+    const post = await BlogPost.findOne({ where: { id } });
+
+    if (!post) throw notFound('Post does not exist');
+    if (post.userId !== userId) throw unauthorized('Unauthorized user');
+
+    await post.destroy();
+  },
+
 };

@@ -30,4 +30,11 @@ module.exports = {
     res.status(200).json(post);
   },
 
+  delete: async (req, res) => {
+    const { id } = req.params;
+    const { userId } = req.tokenPayload;
+    await blogPostService.delete(id, userId);
+    res.status(204).end();
+  },
+
 };
