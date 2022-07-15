@@ -22,4 +22,11 @@ module.exports = {
     res.status(200).json(post);
   },
 
+  update: async (req, res) => {
+    const { id } = req.params;
+    const { userId } = req.tokenPayload;
+    const post = await blogPostService.update(id, userId, req.body);
+    res.status(200).json(post);
+  },
+
 };
