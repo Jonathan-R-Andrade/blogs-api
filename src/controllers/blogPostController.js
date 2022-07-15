@@ -11,4 +11,9 @@ module.exports = {
     res.status(201).json(post);
   },
 
+  list: async (_req, res) => {
+    const posts = await blogPostService.list();
+    res.status(200).json(posts);
+  },
+
 };
