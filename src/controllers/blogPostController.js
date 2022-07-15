@@ -38,4 +38,10 @@ module.exports = {
     res.status(204).end();
   },
 
+  getBySearchTerm: async (req, res) => {
+    const { q: searchTerm } = req.query;
+    const posts = await blogPostService.getBySearchTerm(searchTerm);
+    res.status(200).json(posts);
+  },
+
 };
