@@ -6,17 +6,16 @@ module.exports = {
 
   checkLoginData: async (req, res) => {
     validateLoginData(req.body);
-    await userService.checkLoginData(req.body);
-    const { email } = req.body;
-    const token = jwtService.createToken({ email });
+    const { id: userId } = await userService.checkLoginData(req.body);
+    const token = jwtService.createToken({ userId });
     res.status(200).json({ token });
   },
 
   create: async (req, res) => {
     validateUserData(req.body);
-    const { email } = await userService.create(req.body);
-    const token = jwtService.createToken({ email });
-    res.status(201).json({ token });
+    const { id: userId } = await userService.create(req.body);
+    const token = jwtService.createToken({ userId });
+    res.status(201).json({ token, userId });
   },
 
   list: async (_req, res) => {
