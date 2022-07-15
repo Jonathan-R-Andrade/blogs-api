@@ -10,7 +10,7 @@ module.exports = {
   validateToken: (token) => {
     if (!token) throw unauthorized('Token not found');
     try {
-      jwt.verify(token, process.env.JWT_SECRET);
+      return jwt.verify(token, process.env.JWT_SECRET);
     } catch (error) {
       throw unauthorized('Expired or invalid token');
     }
