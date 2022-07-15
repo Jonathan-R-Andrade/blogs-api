@@ -29,4 +29,10 @@ module.exports = {
     res.status(200).json(user);
   },
 
+  delete: async (req, res) => {
+    const { userId } = req.tokenPayload;
+    await userService.delete(userId);
+    res.status(204).end();
+  },
+
 };

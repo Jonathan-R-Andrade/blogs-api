@@ -31,4 +31,9 @@ module.exports = {
     return user.toJSON();
   },
 
+  delete: async (id) => {
+    const result = await User.destroy({ where: { id } });
+    if (!result) throw notFound('User does not exist');
+  },
+
 };
