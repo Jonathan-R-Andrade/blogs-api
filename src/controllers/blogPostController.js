@@ -7,7 +7,8 @@ module.exports = {
   create: async (req, res) => {
     validatePostData(req.body);
     await categoryService.checkIfAllExist(req.body.categoryIds);
-    const post = await blogPostService.create(req.body);
+    const { userId } = req.tokenPayload;
+    const post = await blogPostService.create(userId, req.body);
     res.status(201).json(post);
   },
 

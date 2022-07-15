@@ -3,10 +3,10 @@ const { notFound, unauthorized } = require('../errors');
 
 module.exports = {
 
-  create: async (postData) => {
+  create: async (userId, postData) => {
     const result = await sequelize.transaction(async (t) => {
       const { dataValues: post } = await BlogPost.create(
-        { ...postData, userId: postData.userId || 1 }, { transaction: t },
+        { ...postData, userId }, { transaction: t },
       );
 
       const associationPostCategories = postData
