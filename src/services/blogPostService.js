@@ -43,7 +43,13 @@ module.exports = {
   },
 
   update: async (id, userId, { title, content }) => {
-    const post = await BlogPost.findOne({ where: { id } });
+    const post = await BlogPost.findOne({
+      where: { id },
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
 
     if (!post) throw notFound('Post does not exist');
     if (post.userId !== userId) throw unauthorized('Unauthorized user');
