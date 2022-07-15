@@ -31,4 +31,16 @@ module.exports = {
     const { error } = schema.validate(categoryData);
     if (error) throw badRequest(error.message);
   },
+
+  validatePostData: (postData) => {
+    const schema = joi.object({
+      title: joi.string().required().not().empty(),
+      content: joi.string().required().not().empty(),
+      categoryIds: joi.array().items(
+        joi.number().min(1).label('id'),
+      ).required().min(1),
+    }).required().label('post');
+
+    joi.assert(postData, schema, badRequest('Some required fields are missing'));
+  },
 };
