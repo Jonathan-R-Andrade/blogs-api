@@ -43,4 +43,13 @@ module.exports = {
 
     joi.assert(postData, schema, badRequest('Some required fields are missing'));
   },
+
+  validatePostDataToEdit: (postData) => {
+    const schema = joi.object({
+      title: joi.string().required().not().empty(),
+      content: joi.string().required().not().empty(),
+    }).required().label('post');
+
+    joi.assert(postData, schema, badRequest('Some required fields are missing'));
+  },
 };

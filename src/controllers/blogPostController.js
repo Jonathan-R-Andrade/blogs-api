@@ -1,6 +1,6 @@
 const blogPostService = require('../services/blogPostService');
 const categoryService = require('../services/categoryService');
-const { validatePostData } = require('../services/validations');
+const { validatePostData, validatePostDataToEdit } = require('../services/validations');
 
 module.exports = {
 
@@ -23,6 +23,7 @@ module.exports = {
   },
 
   update: async (req, res) => {
+    validatePostDataToEdit(req.body);
     const { id } = req.params;
     const { userId } = req.tokenPayload;
     const post = await blogPostService.update(id, userId, req.body);
