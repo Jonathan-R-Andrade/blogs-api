@@ -10,5 +10,6 @@ router.post('/', blogPostController.create);
 router.get('/', blogPostController.list);
 router.get('/:id', blogPostController.getById);
 router.put('/:id', blogPostController.update);
+router.delete('/:id', blogPostController.delete);
 
 module.exports = router;
