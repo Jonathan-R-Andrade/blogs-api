@@ -2,7 +2,8 @@ const jwtService = require('../services/jwtService');
 
 const validateToken = (req, _res, next) => {
   const { authorization: token } = req.headers;
-  jwtService.validateToken(token);
+  const { data } = jwtService.validateToken(token);
+  req.tokenPayload = data;
   next();
 };
 
