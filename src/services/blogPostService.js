@@ -1,4 +1,5 @@
 const { BlogPost, User, Category, PostCategory, sequelize } = require('../database/models');
+const { notFound } = require('../errors');
 
 module.exports = {
 
@@ -27,6 +28,18 @@ module.exports = {
       ],
     });
     return posts;
+  },
+
+  getById: async (id) => {
+    const post = await BlogPost.findOne({
+      where: { id },
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+    if (!post) throw notFound('Post does not exist');
+    return post.toJSON();
   },
 
 };

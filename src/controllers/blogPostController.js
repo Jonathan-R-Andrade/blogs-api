@@ -16,4 +16,10 @@ module.exports = {
     res.status(200).json(posts);
   },
 
+  getById: async (req, res) => {
+    const { id } = req.params;
+    const post = await blogPostService.getById(id);
+    res.status(200).json(post);
+  },
+
 };
