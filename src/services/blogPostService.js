@@ -1,5 +1,5 @@
 const { BlogPost, User, Category, PostCategory, sequelize } = require('../database/models');
-const { notFound } = require('../errors');
+const { notFound, unauthorized } = require('../errors');
 
 module.exports = {
 
@@ -39,6 +39,16 @@ module.exports = {
       ],
     });
     if (!post) throw notFound('Post does not exist');
+    return post.toJSON();
+  },
+
+  update: async (id, userId, { title, content }) => {
+    const post = await BlogPost.findOne({ where: { id } });
+
+    if (!post) throw notFound('Post does not exist');
+    if (post.userId !== userId) throw unauthorized('Unauthorized user');
+
+    await post.update({ title, content });
     return post.toJSON();
   },
 
