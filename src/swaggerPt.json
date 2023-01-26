@@ -140,6 +140,47 @@
           }
         }
       }
+    },
+    "/user/{id}": {
+      "get": {
+        "summary": "Obter um usuário pelo id",
+        "description": "Retorna um objeto com as informações do usuário.",
+        "tags": ["User"],
+        "security": [{ "TokenJWT": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário retornado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/NaoAutorizado"
+          },
+          "404": {
+            "$ref": "#/components/responses/UsuarioNaoEncontrado"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -246,6 +287,16 @@
       },
       "NaoAutorizado": {
         "description": "Token não informado ou inválido.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RespostaDeErro"
+            }
+          }
+        }
+      },
+      "UsuarioNaoEncontrado": {
+        "description": "Usuário não encontrado.",
         "content": {
           "application/json": {
             "schema": {
