@@ -266,6 +266,46 @@
           }
         }
       }
+    },
+    "/post/search": {
+      "get": {
+        "summary": "Pesquisar posts",
+        "description": "Retorna um array com os posts que contenham no título ou no conteúdo o termo pesquisado.",
+        "tags": ["Post"],
+        "security": [{ "TokenJWT": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "description": "Termo a ser pesquisado",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Posts listados com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/NaoAutorizado"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
+      }
     }
   },
   "components": {
