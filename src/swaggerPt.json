@@ -238,6 +238,33 @@
             "$ref": "#/components/responses/ErroDesconhecido"
           }
         }
+      },
+      "get": {
+        "summary": "Listar todos os posts",
+        "description": "Retorna um array com todos os posts.",
+        "tags": ["Post"],
+        "security": [{ "TokenJWT": [] }],
+        "responses": {
+          "200": {
+            "description": "Posts listados com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/NaoAutorizado"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
       }
     }
   },
@@ -321,6 +348,65 @@
           }
         },
         "required": ["token", "userId"]
+      },
+      "Categoria": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["id", "name"]
+      },
+      "Post": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "updated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "published": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/Usuario"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Categoria"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "content",
+          "userId",
+          "updated",
+          "published",
+          "user",
+          "categories"
+        ]
       },
       "CriarPost": {
         "type": "object",
