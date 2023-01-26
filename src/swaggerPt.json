@@ -89,14 +89,7 @@
             }
           },
           "400": {
-            "description": "Uma ou mais propriedade obrigatória não foi informada, ou está com o valor inválido.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RespostaDeErro"
-                }
-              }
-            }
+            "$ref": "#/components/responses/PropriedadeInvalida"
           },
           "409": {
             "description": "Um usuário com o email informado já existe.",
@@ -203,6 +196,49 @@
           }
         }
       }
+    },
+    "/post": {
+      "post": {
+        "summary": "Criar um post",
+        "description": "Cria um post e retorna um objeto com as informações do post criado.",
+        "tags": ["Post"],
+        "security": [{ "TokenJWT": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarPost"
+              },
+              "example": {
+                "title": "O que é Swagger?",
+                "content": "O Swagger é uma ferramenta de documentação de API...",
+                "categoryIds": [1, 2]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Post criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RespostaAoCriarUmPost"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/PropriedadeInvalida"
+          },
+          "401": {
+            "$ref": "#/components/responses/NaoAutorizado"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -286,6 +322,53 @@
         },
         "required": ["token", "userId"]
       },
+      "CriarPost": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "categoryIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "required": ["title", "content", "categoryIds"]
+      },
+      "RespostaAoCriarUmPost": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "updated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "published": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": ["id", "title", "content", "userId", "updated", "published"]
+      },
       "RespostaDeErro": {
         "type": "object",
         "properties": {
@@ -319,6 +402,16 @@
       },
       "UsuarioNaoEncontrado": {
         "description": "Usuário não encontrado.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RespostaDeErro"
+            }
+          }
+        }
+      },
+      "PropriedadeInvalida": {
+        "description": "Uma ou mais propriedade obrigatória não foi informada, ou está com o valor inválido.",
         "content": {
           "application/json": {
             "schema": {
