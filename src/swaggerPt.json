@@ -403,6 +403,38 @@
             "$ref": "#/components/responses/ErroDesconhecido"
           }
         }
+      },
+      "delete": {
+        "summary": "Deletar um post",
+        "description": "Deleta um post e retorna status 204 se o post foi deletado com sucesso.",
+        "tags": ["Post"],
+        "security": [{ "TokenJWT": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do post a ser deletado",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Post deletado com sucesso."
+          },
+          "401": {
+            "$ref": "#/components/responses/NaoAutorizado"
+          },
+          "404": {
+            "$ref": "#/components/responses/PostNaoEncontrado"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
       }
     }
   },
