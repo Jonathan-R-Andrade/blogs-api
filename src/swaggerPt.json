@@ -181,6 +181,28 @@
           }
         }
       }
+    },
+    "/user/me": {
+      "delete": {
+        "summary": "Deletar um usuário",
+        "description": "Deleta o usuário autenticado e retorna status 204 se o usuário foi deletado com sucesso.",
+        "tags": ["User"],
+        "security": [{ "TokenJWT": [] }],
+        "responses": {
+          "204": {
+            "description": "Usuário deletado com sucesso."
+          },
+          "401": {
+            "$ref": "#/components/responses/NaoAutorizado"
+          },
+          "404": {
+            "$ref": "#/components/responses/UsuarioNaoEncontrado"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
+      }
     }
   },
   "components": {
