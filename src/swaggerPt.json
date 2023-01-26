@@ -306,6 +306,47 @@
           }
         }
       }
+    },
+    "/post/{id}": {
+      "get": {
+        "summary": "Obter um post pelo id",
+        "description": "Retorna um objeto com as informações do post.",
+        "tags": ["Post"],
+        "security": [{ "TokenJWT": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do post",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post retornado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/NaoAutorizado"
+          },
+          "404": {
+            "$ref": "#/components/responses/PostNaoEncontrado"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -528,6 +569,16 @@
       },
       "UsuarioNaoEncontrado": {
         "description": "Usuário não encontrado.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RespostaDeErro"
+            }
+          }
+        }
+      },
+      "PostNaoEncontrado": {
+        "description": "Post não encontrado.",
         "content": {
           "application/json": {
             "schema": {
