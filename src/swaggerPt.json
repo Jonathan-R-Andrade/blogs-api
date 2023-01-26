@@ -346,6 +346,63 @@
             "$ref": "#/components/responses/ErroDesconhecido"
           }
         }
+      },
+      "put": {
+        "summary": "Atualizar um post",
+        "description": "Atualiza titulo e conteúdo de um post e retorna um objeto com as informações do post atualizado.",
+        "tags": ["Post"],
+        "security": [{ "TokenJWT": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do post a ser atualizado",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Objeto com as informações do post a ser atualizado.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AtualizarPost"
+              },
+              "example": {
+                "title": "O que é Blogs API?",
+                "content": "É uma API de blog para criação e gerenciamento de posts."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Post atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/PropriedadeInvalida"
+          },
+          "401": {
+            "$ref": "#/components/responses/NaoAutorizado"
+          },
+          "404": {
+            "$ref": "#/components/responses/PostNaoEncontrado"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
       }
     }
   },
@@ -536,6 +593,18 @@
         },
         "required": ["id", "title", "content", "userId", "updated", "published"]
       },
+      "AtualizarPost": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": ["title", "content"]
+      },
       "RespostaDeErro": {
         "type": "object",
         "properties": {
@@ -558,7 +627,7 @@
         }
       },
       "NaoAutorizado": {
-        "description": "Token não informado ou inválido.",
+        "description": "Token não informado, inválido, expirado ou o usuário não tem permissão para executar a ação.",
         "content": {
           "application/json": {
             "schema": {
