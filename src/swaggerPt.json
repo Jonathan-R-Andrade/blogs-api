@@ -52,14 +52,7 @@
             }
           },
           "500": {
-            "description": "Erro desconhecido no servidor.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RespostaDeErro"
-                }
-              }
-            }
+            "$ref": "#/components/responses/ErroDesconhecido"
           }
         }
       }
@@ -116,20 +109,48 @@
             }
           },
           "500": {
-            "description": "Erro desconhecido no servidor.",
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todos os usuários",
+        "description": "Retorna um array com todos os usuários cadastrados.",
+        "tags": ["User"],
+        "security": [{ "TokenJWT": [] }],
+        "responses": {
+          "200": {
+            "description": "Usuários listados com sucesso.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RespostaDeErro"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Usuario"
+                  }
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/NaoAutorizado"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
           }
         }
       }
     }
   },
   "components": {
+    "securitySchemes": {
+      "TokenJWT": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "Token retornado ao fazer login ou ao criar um usuário."
+      }
+    },
     "schemas": {
       "Login": {
         "type": "object",
@@ -151,6 +172,26 @@
           }
         },
         "required": ["token"]
+      },
+      "Usuario": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": ["id", "displayName", "email", "image"]
       },
       "CriarUsuario": {
         "type": "object",
@@ -190,6 +231,28 @@
           }
         },
         "required": ["message"]
+      }
+    },
+    "responses": {
+      "ErroDesconhecido": {
+        "description": "Erro desconhecido no servidor.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RespostaDeErro"
+            }
+          }
+        }
+      },
+      "NaoAutorizado": {
+        "description": "Token não informado ou inválido.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RespostaDeErro"
+            }
+          }
+        }
       }
     }
   }
