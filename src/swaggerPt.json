@@ -436,6 +436,45 @@
           }
         }
       }
+    },
+    "/categories": {
+      "post": {
+        "summary": "Criar uma categoria",
+        "description": "Cria uma nova categoria de post e retorna um objeto com as informações da categoria criada.",
+        "tags": ["Categories"],
+        "security": [{ "TokenJWT": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarCategoria"
+              },
+              "example": { "name": "Tecnologia" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Categoria criada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Categoria"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/PropriedadeInvalida"
+          },
+          "401": {
+            "$ref": "#/components/responses/NaoAutorizado"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -531,6 +570,15 @@
           }
         },
         "required": ["id", "name"]
+      },
+      "CriarCategoria": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["name"]
       },
       "Post": {
         "type": "object",
