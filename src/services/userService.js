@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const { User } = require('../database/models');
 const { badRequest, conflict, notFound } = require('../errors');
 
@@ -5,17 +6,21 @@ module.exports = {
 
   checkLoginData: async ({ email, password }) => {
     const user = await User.findOne({ where: { email } });
-    if (!user || user.password !== password) {
-      throw badRequest('Invalid fields');
+    if (!user || !bcrypt.compareSync(password, user.password)) {
+      throw badRequest('Incorrect email or password');
     }
     return user.toJSON();
   },
 
   create: async (userData) => {
+    const hash = bcrypt.hashSync(userData.password, 10);
+    const userDataWithHash = { ...userData, password: hash };
+
     const [user, created] = await User.findOrCreate({
       where: { email: userData.email },
-      defaults: userData,
+      defaults: userDataWithHash,
     });
+
     if (!created) throw conflict('User already registered');
     return user.toJSON();
   },
