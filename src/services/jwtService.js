@@ -3,7 +3,7 @@ const { unauthorized } = require('../errors');
 
 module.exports = {
   createToken: (data) => {
-    const jwtOptions = { algorithm: 'HS256' };
+    const jwtOptions = { algorithm: 'HS256', expiresIn: '1 day' };
     return jwt.sign({ data }, process.env.JWT_SECRET, jwtOptions);
   },
 
