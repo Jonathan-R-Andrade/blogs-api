@@ -474,6 +474,33 @@
             "$ref": "#/components/responses/ErroDesconhecido"
           }
         }
+      },
+      "get": {
+        "summary": "Listar todas as categorias",
+        "description": "Retorna um array com todas as categorias de post.",
+        "tags": ["Categories"],
+        "security": [{ "TokenJWT": [] }],
+        "responses": {
+          "200": {
+            "description": "Categorias listadas com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Categoria"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/NaoAutorizado"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
       }
     }
   },
