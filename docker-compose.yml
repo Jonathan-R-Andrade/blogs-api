@@ -4,13 +4,9 @@ services:
   node:
     build: .
     user: node
-    working_dir: /app
-    volumes:
-      - ./:/app
     container_name: blogs_api
     tty: true
     stdin_open: true
-    command: bash
     restart: always
     depends_on:
       - db
@@ -26,9 +22,6 @@ services:
     image: mysql:8.0.21
     platform: linux/x86_64
     restart: always
-    ports:
-      - 3306:3306
-      - 33060:33060
     environment:
       MYSQL_ROOT_PASSWORD: password
 
