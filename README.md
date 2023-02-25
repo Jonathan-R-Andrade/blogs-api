@@ -51,7 +51,17 @@ Siga os passos abaixo executando os comandos no terminal.
 
     > Entre na pasta do repositório clonado.
 
-2. Inicie a aplicação com o Docker Compose.
+2. Crie um arquivo `.env` na raiz do projeto com as variáveis de ambiente necessárias para a aplicação.
+    * No Windows, execute o comando abaixo no terminal.
+      ```
+      copy .env.example .env
+      ```
+    * No Unix/Linux, execute o comando abaixo no terminal.
+      ```
+      cp .env.example .env
+      ```
+
+3. Inicie a aplicação com o Docker Compose.
     ```
     docker-compose up -d --build
     ```
