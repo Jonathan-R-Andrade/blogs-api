@@ -13,17 +13,22 @@ services:
     ports:
       - 3000:3000
     environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password
-      HOSTNAME: db
-      JWT_SECRET: secretJWT
+      NODE_ENV: ${NODE_ENV}
+      API_PORT: ${API_PORT}
+      DB_DIALECT: ${DB_DIALECT}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
   db:
     container_name: blogs_api_db
     image: mysql:8.0.21
     platform: linux/x86_64
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
 networks:
   default:
